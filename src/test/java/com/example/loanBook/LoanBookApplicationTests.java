@@ -40,7 +40,7 @@ public class LoanBookApplicationTests {
 
         Member testMember = new Member ( );
         System.out.println ( "新建测试member" );
-        ISpecification hasReachMax = new HasReachMaxSpecification ( );
+        ISpecification hasReachMax = new MaxLoanSizeSpecification ( );
         testMember.getSpecifications ( ).add ( hasReachMax );
         System.out.println ( "添加规则：最多借三本" );
 

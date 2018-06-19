@@ -31,7 +31,7 @@ public class Member {
 
     public boolean canLoan ( Book book ) {
 
-        return book.getLoanTo ( ) == null && ! validate ( );
+        return book.getLoanTo ( ) == null && validate ( );
     }
 
     public Loan loan ( Book book ) {
@@ -43,7 +43,7 @@ public class Member {
             getLoans ( ).add ( loan );
             return loan;
         }
-        System.out.println ( "该书不可以借阅！" );
+        System.out.println ( book.getTitle ( ) + "不可以借阅！" );
         return loan;
 
     }
