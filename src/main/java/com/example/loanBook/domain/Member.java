@@ -12,19 +12,26 @@ public class Member {
 
     private List < Loan > Loans = new ArrayList <> ( );
 
+    private List < ISpecification < Member > > specifications = new ArrayList <> ( );
+
+    public Member ( ) {
+
+        //        specifications.add ( new LoanOnlyOneSpecification ( ) );
+    }
+
     public void returnBook ( Book book ) {
 
         Loan loan = findCurrentLoanFor ( book );
         if ( loan != null ) {
             loan.markAsReturned ( );
             book.setLoanTo ( null );
-            System.out.println ( "还书成功！" );
+            System.out.println ( "还书" + book.getTitle ( ) + "成功！" );
         }
     }
 
     public boolean canLoan ( Book book ) {
 
-        return book.getLoanTo ( ) == null;
+        return book.getLoanTo ( ) == null && ! validate ( );
     }
 
     public Loan loan ( Book book ) {
@@ -32,7 +39,7 @@ public class Member {
         Loan loan = null;
         if ( canLoan ( book ) ) {
             loan = LoanFactory.CreateLoan ( book , this );
-            System.out.println ( "借阅成功！" );
+            System.out.println ( "借阅" + book.getTitle ( ) + "成功！" );
             getLoans ( ).add ( loan );
             return loan;
         }
@@ -43,10 +50,25 @@ public class Member {
 
     public Loan findCurrentLoanFor ( Book book ) {
 
-        return getLoans ( ).stream ( )
+        List < Loan > collect = getLoans ( ).stream ( )
                 .filter ( loan -> book.getId ( ).equals ( loan.getBook ( ).getId ( ) ) && loan.hasNotBeenReturned ( ) )
-                .collect ( Collectors.toList ( ) )
-                .get ( 0 );
+                .collect ( Collectors.toList ( ) );
+        if ( collect.size ( ) > 0 ) {
+            return collect.get ( 0 );
+        }
+        return null;
+    }
+
+    private boolean validate ( ) {
+
+        boolean result = false;
+        for ( ISpecification < Member > specification : specifications ) {
+            result = specification.isSatisfied ( this );
+            if ( ! result ) {
+                return false;
+            }
+        }
+        return result;
     }
 
     public String getId ( ) {
@@ -77,5 +99,15 @@ public class Member {
     public void setLoans ( List < Loan > loans ) {
 
         Loans = loans;
+    }
+
+    public List < ISpecification < Member > > getSpecifications ( ) {
+
+        return specifications;
+    }
+
+    public void setSpecifications ( List < ISpecification < Member > > specifications ) {
+
+        this.specifications = specifications;
     }
 }
