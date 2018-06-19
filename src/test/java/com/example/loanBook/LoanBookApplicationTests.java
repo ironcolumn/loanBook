@@ -47,14 +47,8 @@ public class LoanBookApplicationTests {
         testMember.loan ( book1 );
         testMember.loan ( book2 );
         testMember.loan ( book3 );
-        System.out.println ( "借阅记录" );
-        System.out.println ( "--------------" );
-        testMember.getLoans ( ).stream ( ).filter ( loan -> loan.hasNotBeenReturned ( ) ).forEach ( loan -> {
-            System.out.println ( loan.getBook ( ).getTitle ( ) );
-        } );
-        System.out.println ( "--------------" );
-
         testMember.loan ( book4 );
+
         System.out.println ( "借阅记录" );
         System.out.println ( "--------------" );
         testMember.getLoans ( ).stream ( ).filter ( loan -> loan.hasNotBeenReturned ( ) ).forEach ( loan -> {
