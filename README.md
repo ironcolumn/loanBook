@@ -1,6 +1,6 @@
 # 测试代码
 ```java
-    public void test ( ) {
+ public void test ( ) {
 
         Book book1 = new Book ( );
         book1.setId ( "1" );
@@ -44,11 +44,11 @@
         testMember.returnBook ( book1 );
         testMember.returnBook ( book2 );
         testMember.returnBook ( book3 );
-        testMember.getSpecifications ( ).add ( new LoanOnlyOneSpecification ( ) );
 
         System.out.println ( "添加规则：只能借一本" );
+        testMember.getSpecifications ( ).add ( new LoanOnlyOneSpecification ( book1 ) );
         testMember.loan ( book1 );
-        testMember.loan ( book2 );
+        testMember.loan ( book1 );
         System.out.println ( "借阅记录" );
         System.out.println ( "--------------" );
         testMember.getLoans ( ).stream ( ).filter ( loan -> loan.hasNotBeenReturned ( ) ).forEach ( loan -> {
@@ -57,8 +57,6 @@
         System.out.println ( "--------------" );
     }
 
-}
-
 ```
 # 测试结果
-![image](src/testResult1.png)
+![image](src/testResult.png)

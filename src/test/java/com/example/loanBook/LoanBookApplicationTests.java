@@ -60,11 +60,11 @@ public class LoanBookApplicationTests {
         testMember.returnBook ( book1 );
         testMember.returnBook ( book2 );
         testMember.returnBook ( book3 );
-        testMember.getSpecifications ( ).add ( new LoanOnlyOneSpecification ( ) );
 
         System.out.println ( "添加规则：只能借一本" );
+        testMember.getSpecifications ( ).add ( new LoanOnlyOneSpecification ( book1 ) );
         testMember.loan ( book1 );
-        testMember.loan ( book2 );
+        testMember.loan ( book1 );
         System.out.println ( "借阅记录" );
         System.out.println ( "--------------" );
         testMember.getLoans ( ).stream ( ).filter ( loan -> loan.hasNotBeenReturned ( ) ).forEach ( loan -> {
